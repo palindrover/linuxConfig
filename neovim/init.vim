@@ -7,6 +7,8 @@ set number
 syntax on
 set mouse=a
 set clipboard=unnamedplus
+set foldmethod=syntax
+set nofoldenable
 filetype plugin on 
 
 call plug#begin("~/.vim/plugged")
@@ -23,11 +25,9 @@ call plug#begin("~/.vim/plugged")
 	Plug 'joshdick/onedark.vim'
 	Plug 'preservim/tagbar'
 	Plug 'm4xshen/autoclose.nvim'
+	Plug 'bfrg/vim-c-cpp-modern'
 
 call plug#end()
-
-"CoC settings
-inoremap <silent><expr> <TAB> coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<TAB>"
 
 nmap <F8> :TagbarToggle<CR>
 
@@ -50,6 +50,8 @@ endif
 syntax on
 colorscheme onedark
 
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
+
 nnoremap <leader>n :NERDTreeFocus<CR>
 nnoremap <C-n> :NERDTreeToggle<CR>
 "nnoremap <C-t> :NERDTreeToggle<CR>
@@ -58,6 +60,11 @@ nnoremap <C-f> :NERDTreeFind<CR>
 " Exit Vim if NERDTree is the only window remaining in the only tab.
 autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | call feedkeys(":quit\<CR>:\<BS>") | endif
 
+
+
+inoremap <silent><expr> <TAB> coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<TAB>"
+
 lua << EOF
 require("autoclose").setup()
+vim.api.nvim_set_keymap("i", "jj", "<Esc>", {noremap = false})
 EOF
